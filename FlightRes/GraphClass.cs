@@ -31,8 +31,8 @@ namespace FlightRes
         private static LinkedList<Booking> bookings = new LinkedList<Booking>();
         private static int flightCounter = 1;
         private static int bookingCounter = 1;
-        
-        public static void AddFlight( int to, string depTime, string arrTime, int price, int seats)
+
+        public static void AddFlight(int to, string depTime, string arrTime, int price, int seats)
         {
             flights.Add(new Flight
             {
@@ -52,22 +52,35 @@ namespace FlightRes
         {
             TimeSpan dep = TimeSpan.Parse(depTime);
             TimeSpan arr = TimeSpan.Parse(arrTime);
-            
+
             if (arr < dep) arr += TimeSpan.FromDays(1);
-            
+
             TimeSpan duration = arr - dep;
             return $"{(int)duration.TotalHours}h{duration.Minutes}m";
         }
-
-        public static void ViewFlightDetails(string[] countries)
+        public static List<Flight> GetFlightsByCountry(int countryIndex)
         {
-            Console.WriteLine("\nAll Available Flights:");
-            Console.WriteLine("{0,-10} {1,-15} {2,-15} {3,-10} {4,-10} {5,-15} {6,-10}", 
-                            "Flight ID", "From", "To", "Departure", "Arrival", "Duration", "Seats");
-            
+            var result = new List<Flight>();
             foreach (var flight in flights.GetAll())
             {
-                if (flight.AvailableSeats > 0)
+                if (flight.To == countryIndex && flight.AvailableSeats > 0)
+                {
+                    result.Add(flight);
+                }
+            }
+            return result;
+        }
+
+        public static void ViewFlightDetails(string[] countries, int? countryIndex = null)
+        {
+            Console.WriteLine("\nAll Available Flights:");
+            Console.WriteLine("{0,-10} {1,-15} {2,-15} {3,-10} {4,-10} {5,-15} {6,-10}",
+                             "Flight ID", "From", "To", "Departure", "Arrival", "Duration", "Seats");
+
+            foreach (var flight in flights.GetAll())
+            {
+                if (flight.AvailableSeats > 0 &&
+                    (!countryIndex.HasValue || flight.To == countryIndex))
                 {
                     Console.WriteLine("{0,-10} {1,-15} {2,-15} {3,-10} {4,-10} {5,-15} {6,-10}",
                                     flight.FlightID,
@@ -130,10 +143,10 @@ namespace FlightRes
                     var flight = flights.Find(f => f.FlightID == flightId);
                     if (flight != null) flight.AvailableSeats++;
                 }
-                
+
                 bookings.Remove(b => b.BookingID == bookingId);
                 Console.WriteLine("Booking cancelled successfully!");
-                
+
                 if (bookings.Count == 0) bookingCounter = 1;
             }
             else
@@ -145,9 +158,9 @@ namespace FlightRes
         public static void ViewBookings()
         {
             Console.WriteLine("\nAll Bookings:");
-            Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}", 
+            Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}",
                             "Booking ID", "Date", "User Name", "Destination", "Total Price");
-            
+
             foreach (var booking in bookings.GetAll())
             {
                 Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}",
@@ -162,14 +175,14 @@ namespace FlightRes
         public static bool AdminLogin(string password) => password == "admin123";
 
         public static void SortWithCountry(string[] countries)
-    {
-        flights.MergeSortBy(flight => countries[flight.To]);
+        {
+            flights.MergeSortBy(flight => countries[flight.To]);
+        }
+
+        public static void SortWithFlightID()
+        {
+            flights.MergeSortBy(flight => flight.FlightID);
+        }
     }
 
-    public static void SortWithFlightID()
-    {
-        flights.MergeSortBy(flight => flight.FlightID);
-    }
-    }
-    
 }

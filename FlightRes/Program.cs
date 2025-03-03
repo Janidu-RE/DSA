@@ -13,68 +13,68 @@ namespace FlightRes
 
         static void Main(string[] args)
         {
-           InitializeSampleFlights();
-    
-    while (true)
-    {
-        Console.WriteLine("\nMain Menu:");
-        Console.WriteLine("1. View Flight Details");
-        Console.WriteLine("2. Book Flight");
-        Console.WriteLine("3. Cancel Booking");
-        Console.WriteLine("4. View All Bookings");
-        Console.WriteLine("5. Admin Menu");
-        Console.WriteLine("6. Exit");
-        Console.Write("Select option: ");
+            InitializeSampleFlights();
 
-        switch (Console.ReadLine())
-        {
-            case "1":
-                ViewFlightMenu();
-                break;
-            case "2":
-                BookFlightMenu();
-                break;
-            case "3":
-                CancelBookingMenu();
-                break;
-            case "4":
-                GraphClass.ViewBookings();
-                break;
-            case "5":
-                AdminMenu();
-                break;
-            case "6":
-                return;
-            default:
-                Console.WriteLine("Invalid option!");
-                break;
+            while (true)
+            {
+                Console.WriteLine("\nMain Menu:");
+                Console.WriteLine("1. View Flight Details");
+                Console.WriteLine("2. Book Flight");
+                Console.WriteLine("3. Cancel Booking");
+                Console.WriteLine("4. View All Bookings");
+                Console.WriteLine("5. Admin Menu");
+                Console.WriteLine("6. Exit");
+                Console.Write("Select option: ");
+
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        ViewFlightMenu();
+                        break;
+                    case "2":
+                        BookFlightMenu();
+                        break;
+                    case "3":
+                        CancelBookingMenu();
+                        break;
+                    case "4":
+                        GraphClass.ViewBookings();
+                        break;
+                    case "5":
+                        AdminMenu();
+                        break;
+                    case "6":
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option!");
+                        break;
+                }
+            }
         }
-    }
-}
 
-static void ViewFlightMenu()
-{
-    Console.WriteLine("\nSort Flights By:");
-    Console.WriteLine("1. Flight ID (Default)");
-    Console.WriteLine("2. Country Name");
-    Console.Write("Select sorting option: ");
+        static void ViewFlightMenu()
+        {
+            Console.WriteLine("\nSort Flights By:");
+            Console.WriteLine("1. Flight ID (Default)");
+            Console.WriteLine("2. Country Name");
+            Console.Write("Select sorting option: ");
 
-    switch (Console.ReadLine())
-    {
-        case "1":
-            GraphClass.SortWithFlightID();
-            Console.WriteLine("\nFlights sorted by Flight ID:");
-            break;
-        case "2":
-            GraphClass.SortWithCountry(countries);
-            Console.WriteLine("\nFlights sorted by Country:");
-            break;
-        default:
-            Console.WriteLine("\nShowing default Flight ID order:");
-            break;
-    }
-    
-    GraphClass.ViewFlightDetails(countries);
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    GraphClass.SortWithFlightID();
+                    Console.WriteLine("\nFlights sorted by Flight ID:");
+                    break;
+                case "2":
+                    GraphClass.SortWithCountry(countries);
+                    Console.WriteLine("\nFlights sorted by Country:");
+                    break;
+                default:
+                    Console.WriteLine("\nShowing default Flight ID order:");
+                    break;
+            }
+
+            GraphClass.ViewFlightDetails(countries);
         }
 
         static void InitializeSampleFlights()
@@ -158,10 +158,52 @@ static void ViewFlightMenu()
                 Console.WriteLine("Invalid date format! Please use DD/MM/YYYY.");
             }
 
-            var flightIds = new LinkedList<string>();
-            GraphClass.ViewFlightDetails(countries);
+            // Display countries for selection
+            Console.WriteLine("\nSelect Destination Country:");
+            for (int i = 0; i < countries.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {countries[i]}");
+            }
+            Console.Write("Enter country number: ");
 
-            Console.WriteLine("Enter flight IDs to book (separate by comma):");
+            int countryIndex;
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out countryIndex) &&
+                    countryIndex > 0 && countryIndex <= countries.Length)
+                {
+                    countryIndex--; // Convert to zero-based index
+                    break;
+                }
+                Console.WriteLine("Invalid country number. Please try again.");
+            }
+
+            // Show flights only for the selected country
+            Console.WriteLine($"\nAvailable Flights to {countries[countryIndex]}:");
+            var availableFlights = GraphClass.GetFlightsByCountry(countryIndex);
+            if (availableFlights.Count == 0)
+            {
+                Console.WriteLine("No flights available to this destination.");
+                return;
+            }
+
+            Console.WriteLine("{0,-10} {1,-15} {2,-10} {3,-10} {4,-15} {5,-10}",
+                             "Flight ID", "Departure", "Arrival", "Duration", "Price", "Seats");
+
+            foreach (var flight in availableFlights)
+            {
+                Console.WriteLine("{0,-10} {1,-15} {2,-10} {3,-10} {4,-15} {5,-10}",
+                                 flight.FlightID,
+                                 flight.DepartureTime,
+                                 flight.ArrivalTime,
+                                 flight.Duration,
+                                 flight.Price,
+                                 flight.AvailableSeats);
+            }
+
+            // Book flights
+            var flightIds = new LinkedList<string>();
+            Console.WriteLine("\nEnter flight IDs to book (separate by comma):");
             string[] ids = Console.ReadLine().Split(',');
             foreach (string id in ids)
             {
