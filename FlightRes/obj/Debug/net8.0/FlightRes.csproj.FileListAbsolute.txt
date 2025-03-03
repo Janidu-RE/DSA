@@ -1,0 +1,14 @@
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.GeneratedMSBuildEditorConfig.editorconfig
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.AssemblyInfoInputs.cache
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.AssemblyInfo.cs
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.csproj.CoreCompileInputs.cache
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/bin/Debug/net8.0/FlightRes
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/bin/Debug/net8.0/FlightRes.deps.json
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/bin/Debug/net8.0/FlightRes.runtimeconfig.json
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/bin/Debug/net8.0/FlightRes.dll
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/bin/Debug/net8.0/FlightRes.pdb
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.dll
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/refint/FlightRes.dll
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.pdb
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/FlightRes.genruntimeconfig.cache
+/Users/janinduhemachandra/Desktop/dsa/Project_1/FlightRes/obj/Debug/net8.0/ref/FlightRes.dll
