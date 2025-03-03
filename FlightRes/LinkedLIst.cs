@@ -18,6 +18,7 @@ namespace FlightRes
     public class LinkedList<T>
     {
         private Node<T> head;
+        private Node<T> tail;
         private int count;
 
         public void Add(T data)
@@ -26,15 +27,12 @@ namespace FlightRes
             if (head == null)
             {
                 head = newNode;
+                tail = newNode;
             }
             else
             {
-                Node<T> current = head;
-                while (current.Next != null)
-                {
-                    current = current.Next;
-                }
-                current.Next = newNode;
+                tail.Next = newNode;
+                tail = newNode;
             }
             count++;
         }
@@ -92,5 +90,65 @@ namespace FlightRes
         }
 
         public int Count => count;
+
+        public void MergeSortBy(Func<T, IComparable> keySelector)
+        {
+            head = MergeSort(head, keySelector);
+
+            // Update the tail pointer
+            Node<T>? temp = head;
+            while (temp?.Next != null)
+            {
+                temp = temp.Next;
+            }
+            tail = temp;
+        }
+
+        private Node<T>? MergeSort(Node<T>? head, Func<T, IComparable> keySelector)
+        {
+            if (head == null || head.Next == null)
+                return head;
+
+            Node<T>? middle = GetMiddle(head);
+            Node<T>? nextToMiddle = middle?.Next;
+
+            if (middle != null)
+                middle.Next = null; // Split the list
+
+            Node<T>? left = MergeSort(head, keySelector);
+            Node<T>? right = MergeSort(nextToMiddle, keySelector);
+
+            return MergeSortedLists(left, right, keySelector);
+        }
+
+        private Node<T>? GetMiddle(Node<T>? head)
+        {
+            if (head == null) return null;
+
+            Node<T>? slow = head, fast = head;
+            while (fast?.Next != null && fast.Next.Next != null)
+            {
+                slow = slow?.Next;
+                fast = fast.Next.Next;
+            }
+            return slow;
+        }
+
+        private Node<T>? MergeSortedLists(Node<T>? left, Node<T>? right, Func<T, IComparable> keySelector)
+        {
+            if (left == null) return right;
+            if (right == null) return left;
+
+            if (keySelector(left.Data).CompareTo(keySelector(right.Data)) <= 0)
+            {
+                left.Next = MergeSortedLists(left.Next, right, keySelector);
+                return left;
+            }
+            else
+            {
+                right.Next = MergeSortedLists(left, right.Next, keySelector);
+                return right;
+            }
+        }
     }
 }
