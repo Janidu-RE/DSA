@@ -157,24 +157,24 @@ namespace FlightRes
         }
 
         public static void ViewBookings()
-{
-    // Sort bookings by date using BubbleSort
-    bookings.BubbleSortBy(booking => DateTime.ParseExact(booking.Date, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+        {
+            // Sort bookings by date using BubbleSort
+            bookings.BubbleSortBy(booking => DateTime.ParseExact(booking.Date, "dd/MM/yyyy", CultureInfo.InvariantCulture));
 
-    Console.WriteLine("\nAll Bookings (Sorted by Date):");
-    Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}",
-                      "Booking ID", "Date", "User Name", "Destination", "Total Price");
+            Console.WriteLine("\nAll Bookings (Sorted by Date):");
+            Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}",
+                              "Booking ID", "Date", "User Name", "Destination", "Total Price");
 
-    foreach (var booking in bookings.GetAll())
-    {
-        Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}",
-                          booking.BookingID,
-                          booking.Date,
-                          booking.UserName,
-                          booking.Destination,
-                          booking.TotalPrice);
-    }
-}
+            foreach (var booking in bookings.GetAll())
+            {
+                Console.WriteLine("{0,-10} {1,-12} {2,-15} {3,-15} {4,-10}",
+                                  booking.BookingID,
+                                  booking.Date,
+                                  booking.UserName,
+                                  booking.Destination,
+                                  booking.TotalPrice);
+            }
+        }
 
         public static bool AdminLogin(string password) => password == "admin123";
 

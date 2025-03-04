@@ -19,47 +19,54 @@ namespace FlightRes
 
             while (true)
             {
-                Console.WriteLine("\nMain Menu:");
-                Console.WriteLine("1. View Flight Details");
-                Console.WriteLine("2. Book Flight");
-                Console.WriteLine("3. Cancel Booking");
-                Console.WriteLine("4. View All Bookings");
-                Console.WriteLine("5. Travel Paths");
-                Console.WriteLine("6. Admin Menu");
-                Console.WriteLine("7. Exit");
-                Console.Write("Select option: ");
+                
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("           ╔═══════════════════════════════════════════════════════════════╗");
+    Console.WriteLine("           ║                     Airplane Ticket Booking System            ║");
+    Console.WriteLine("           ╠═══════════════════════════════════════════════════════════════╣");
+    Console.WriteLine("           ║                1. View Flight Details                         ║");
+    Console.WriteLine("           ║                2. Book Flight                                 ║");
+    Console.WriteLine("           ║                3. Cancel Booking                              ║");
+    Console.WriteLine("           ║                4. View All Bookings                           ║");
+    Console.WriteLine("           ║                5. Travel Paths                                ║");
+    Console.WriteLine("           ║                6. Admin Menu                                  ║");
+    Console.WriteLine("           ║                7. Exit                                        ║");
+    Console.WriteLine("           ╚═══════════════════════════════════════════════════════════════╝");
+    Console.ResetColor();
 
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        ViewFlightMenu();
-                        break;
-                    case "2":
-                        BookFlightMenu();
-                        break;
-                    case "3":
-                        CancelBookingMenu();
-                        break;
-                    case "4":
-                        FlightClass.ViewBookings();
-                        break;
-                    case "5":
-                        Graph.DisplayCountries(countries);
-                        Console.WriteLine("Enter Destination Country: ");
-                        int end = Graph.SelectCountry(countries, "Enter the destination country number: ");
-                        int start = 0;
-                        Graph.FindAllPaths(mat, start, end, countries);
-
-                        break;
-                    case "6":
-                        AdminMenu();
-                        break;
-                    case "7":
-                        return;
-                    default:
-                        Console.WriteLine("Invalid option!");
-                        break;
-                }
+    Console.Write("Select an option: ");
+    switch (Console.ReadLine())
+    {
+        case "1":
+            ViewFlightMenu();
+            break;
+        case "2":
+            BookFlightMenu();
+            break;
+        case "3":
+            CancelBookingMenu();
+            break;
+        case "4":
+            FlightClass.ViewBookings();
+            break;
+        case "5":
+            Graph.DisplayCountries(countries);
+            Console.WriteLine("Enter Destination Country: ");
+            int end = Graph.SelectCountry(countries, "Enter the destination country number: ");
+            int start = 0;
+            Graph.FindAllPaths(mat, start, end, countries);
+            break;
+        case "6":
+            AdminMenu();
+            break;
+        case "7":
+            Console.WriteLine("Exiting program...");
+            return;
+        default:
+            Console.WriteLine("Invalid option! Try again.");
+            Console.ReadKey();
+            break;
+    }
             }
 
         }
@@ -279,7 +286,7 @@ namespace FlightRes
             if (Console.ReadLine() == "1")
             {
                 Console.WriteLine("\nCountry Codes:");
-                for (int i = 0; i < countries.Length; i++)
+                for (int i = 1; i < countries.Length; i++)
                     Console.WriteLine($"{i}. {countries[i]}");
 
                 Console.Write("To Country Code: ");
