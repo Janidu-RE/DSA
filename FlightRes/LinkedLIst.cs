@@ -150,5 +150,36 @@ namespace FlightRes
                 return right;
             }
         }
+
+
+        public void BubbleSortBy(Func<T, IComparable> keySelector)
+        {
+            if (head == null || head.Next == null)
+                return; // No sorting needed for empty or single-element list
+
+            bool swapped;
+            do
+            {
+                swapped = false;
+                Node<T> current = head;
+                Node<T> previous = null;
+
+                while (current != null && current.Next != null)
+                {
+                    // Compare adjacent nodes using the key selector
+                    if (keySelector(current.Data).CompareTo(keySelector(current.Next.Data)) > 0)
+                    {
+                        // Swap the data of the two nodes
+                        T temp = current.Data;
+                        current.Data = current.Next.Data;
+                        current.Next.Data = temp;
+                        swapped = true;
+                    }
+
+                    previous = current;
+                    current = current.Next;
+                }
+            } while (swapped);
+        }
     }
 }
